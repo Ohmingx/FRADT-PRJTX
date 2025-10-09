@@ -1,0 +1,18 @@
+# Virtual Environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Generated data files (cache and runtime data)
+known_face_data.pkl
+attendance.csv
+
+# Directory for runtime output
+unidentified_visitors/
+
+# IDE and OS specific files
+.vscode/
+.idea/
+.DS_Store
