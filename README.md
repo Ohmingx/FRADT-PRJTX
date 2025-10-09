@@ -21,8 +21,8 @@ A web-based application built with Python, Flask, and JavaScript that performs r
 1. **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/YourUsername/YourRepositoryName.git](https://github.com/YourUsername/YourRepositoryName.git)
-    cd YourRepositoryName
+    git clone [https://github.com/Ohmingx/FRADT-PRJTX.git](https://github.com/Ohmingx/FRADT-PRJTX.git)
+    cd FRADT-PRJTX
     ```
 
 2. **Create and activate a virtual environment:**
