@@ -1,4 +1,4 @@
-# app.py (Final Corrected Version)
+# app.py (Final Corrected Version - Batch Processing Update)
 from flask import Flask, render_template, Response
 from flask_socketio import SocketIO
 import cv2
@@ -96,7 +96,7 @@ def attendance():
 # --- Socket.IO Event Handlers ---
 @socketio.on('add_new_person')
 def add_new_person(data):
-    # ... (this function is unchanged)
+    # This function now ONLY saves the image and does not re-encode.
     name = data['name']
     img_data_b64 = data['image'].split(',')[1]
     person_dir = os.path.join(KNOWN_FACES_DIR, name)
@@ -116,7 +116,14 @@ def add_new_person(data):
         filename = os.path.join(person_dir, f'{timestamp}.jpg')
         with open(filename, 'wb') as f:
             f.write(img_data)
-        reencode_and_reload_data()
+        
+        # --- THIS IS THE CHANGE ---
+        # As discussed, the re-encoding call is removed to prevent server freezing.
+        # You must now manually restart the server and delete the .pkl file
+        # to update the recognized faces.
+        # reencode_and_reload_data() 
+        # --------------------------
+
         socketio.emit('add_person_response', {'success': True, 'message': f'{name} was added successfully!'})
     except Exception as e:
         print(f"Error in add_new_person: {e}")
@@ -137,7 +144,7 @@ def handle_process_frame(data):
         frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-        rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+        rgb_small_frame = cv2.cvtColor(small_frame, cv2.IMREAD_COLOR)
 
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
